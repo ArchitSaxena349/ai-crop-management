@@ -1,0 +1,18 @@
+{
+  "model_type": "RandomForestClassifier",
+  "source": "Imported from the previous smart_irrigation_ai feature package and centralized into backend/models",
+  "feature_columns": [
+    "soil_moisture",
+    "temperature",
+    "humidity",
+    "sunlight",
+    "soil_type",
+    "crop_stage",
+    "rainfall"
+  ],
+  "class_mapping": {
+    "0": "NO NEED",
+    "1": "START"
+  },
+  "notes": "Model expects one-hot encoded soil_type and crop_stage columns via the backend irrigation inference utility."
+}

@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "AI Crop Management",
+    "slug": "ai-crop-management-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.aicrop.management"
+    },
+    "ios": {
+      "bundleIdentifier": "com.aicrop.management"
+    },
+    "plugins": [
+      "expo-asset",
+      "expo-font"
+    ]
+  }
+}

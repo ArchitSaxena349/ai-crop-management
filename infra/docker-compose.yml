@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: cropdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/cropdb
+      API_AUTH_ENABLED: "true"
+      API_KEY: change-me
+      SENSOR_RETENTION_DAYS: "30"
+    depends_on:
+      - db
+    ports:
+      - '8000:8000'
+
+volumes:
+  pgdata:

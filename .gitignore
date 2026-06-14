@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+crop_management.db
+.pytest_cache/
+.mypy_cache/
+
+backend/models/plant_disease_prediction_model.h5

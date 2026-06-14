@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KrishiKriya | Smart Crop Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-grid"></div>
+
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">AI Crop Platform</p>
+        <h1>KrishiKriya</h1>
+        <p class="subtitle">Disease detection, yield forecasting, and live IoT intelligence in one command center.</p>
+      </div>
+      <div class="hero-card">
+        <label for="apiBase">Backend API URL</label>
+        <input id="apiBase" type="url" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000" />
+        <button id="saveApiBase" type="button">Save Endpoint</button>
+        <label for="apiKey">API Key</label>
+        <input id="apiKey" type="password" placeholder="x-api-key / API_KEY value" />
+        <button id="saveApiKey" type="button">Save API Key</button>
+        <p id="apiStatus" class="muted">Using local backend by default.</p>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel reveal">
+        <h2>Disease Prediction</h2>
+        <form id="diseaseForm" class="stack">
+          <label>Leaf Image
+            <input name="file" type="file" accept="image/*" required />
+          </label>
+          <div class="split">
+            <label>Top K
+              <input name="top_k" type="number" min="1" value="3" required />
+            </label>
+            <label class="checkbox">
+              <input name="include_raw" type="checkbox" /> Include raw scores
+            </label>
+          </div>
+          <button type="submit">Run Disease Model</button>
+        </form>
+        <div id="diseaseOut" class="result"></div>
+      </section>
+
+      <section class="panel reveal">
+        <h2>Yield Prediction</h2>
+        <form id="yieldForm" class="stack">
+          <div class="grid-2">
+            <label>Nitrogen <input name="Nitrogen" type="number" step="any" min="0" required /></label>
+            <label>Phosphorus <input name="Phosphorus" type="number" step="any" min="0" required /></label>
+            <label>Potassium <input name="Potassium" type="number" step="any" min="0" required /></label>
+            <label>Temperature <input name="Temperature" type="number" step="any" required /></label>
+            <label>Humidity <input name="Humidity" type="number" step="any" min="0" max="100" required /></label>
+            <label>pH <input name="pH" type="number" step="any" min="0" max="14" required /></label>
+            <label>Rainfall <input name="Rainfall" type="number" step="any" min="0" required /></label>
+          </div>
+          <button type="submit">Run Yield Model</button>
+        </form>
+        <div id="yieldOut" class="result"></div>
+      </section>
+
+      <section class="panel reveal wide">
+        <h2>Integrated Prediction</h2>
+        <form id="integratedForm" class="stack">
+          <label>Crop Image
+            <input name="file" type="file" accept="image/*" required />
+          </label>
+          <div class="grid-3">
+            <label>Nitrogen <input name="Nitrogen" type="number" step="any" min="0" required /></label>
+            <label>Phosphorus <input name="Phosphorus" type="number" step="any" min="0" required /></label>
+            <label>Potassium <input name="Potassium" type="number" step="any" min="0" required /></label>
+            <label>Temperature <input name="Temperature" type="number" step="any" required /></label>
+            <label>Humidity <input name="Humidity" type="number" step="any" min="0" max="100" required /></label>
+            <label>pH <input name="pH" type="number" step="any" min="0" max="14" required /></label>
+            <label>Rainfall <input name="Rainfall" type="number" step="any" min="0" required /></label>
+            <label>Top K <input name="top_k" type="number" min="1" value="3" required /></label>
+            <label class="checkbox"><input name="include_raw" type="checkbox" /> Include raw scores</label>
+          </div>
+          <button type="submit">Run Integrated Analysis</button>
+        </form>
+        <div id="integratedOut" class="result"></div>
+      </section>
+
+      <section class="panel reveal">
+        <h2>IoT Ingest</h2>
+        <form id="iotIngestForm" class="stack">
+          <label>Device ID <input name="device_id" type="text" value="esp8266-field-01" required /></label>
+          <div class="grid-2">
+            <label>Temperature (C) <input name="temperature_c" type="number" step="any" required /></label>
+            <label>Humidity (%) <input name="humidity_pct" type="number" step="any" min="0" max="100" required /></label>
+            <label>Soil Moisture Raw <input name="soil_moisture_raw" type="number" min="0" max="1023" required /></label>
+            <label>pH Value (optional) <input name="ph_value" type="number" step="any" min="0" max="14" /></label>
+            <label>Nitrogen ppm (optional) <input name="nitrogen_ppm" type="number" step="any" min="0" /></label>
+            <label>Phosphorus ppm (optional) <input name="phosphorus_ppm" type="number" step="any" min="0" /></label>
+            <label>Potassium ppm (optional) <input name="potassium_ppm" type="number" step="any" min="0" /></label>
+            <label>Rainfall mm (optional) <input name="rainfall_mm" type="number" step="any" min="0" /></label>
+          </div>
+          <button type="submit">Push Sensor Packet</button>
+        </form>
+        <div id="iotIngestOut" class="result"></div>
+      </section>
+
+      <section class="panel reveal">
+        <h2>IoT Insight</h2>
+        <div class="stack">
+          <button id="latestSensorBtn" type="button">Get Latest Sensor Reading</button>
+          <div id="latestSensorOut" class="result"></div>
+          <form id="iotYieldForm" class="stack">
+            <p class="muted">Optional overrides for missing values. Leave blank to use latest sensor context.</p>
+            <div class="grid-2">
+              <label>Nitrogen <input name="Nitrogen" type="number" step="any" min="0" /></label>
+              <label>Phosphorus <input name="Phosphorus" type="number" step="any" min="0" /></label>
+              <label>Potassium <input name="Potassium" type="number" step="any" min="0" /></label>
+              <label>Temperature <input name="Temperature" type="number" step="any" /></label>
+              <label>Humidity <input name="Humidity" type="number" step="any" min="0" max="100" /></label>
+              <label>pH <input name="pH" type="number" step="any" min="0" max="14" /></label>
+              <label>Rainfall <input name="Rainfall" type="number" step="any" min="0" /></label>
+            </div>
+            <button type="submit">Predict Yield From IoT</button>
+          </form>
+          <div id="iotYieldOut" class="result"></div>
+        </div>
+      </section>
+
+      <section class="panel reveal wide">
+        <h2>Smart Irrigation</h2>
+        <p class="muted">Connected to the main platform. Use manual values or blend them with the latest IoT sensor context.</p>
+        <form id="irrigationForm" class="stack">
+          <div class="grid-3">
+            <label>Soil Moisture (%) <input name="soil_moisture" type="number" step="any" min="0" max="100" required /></label>
+            <label>Temperature (C) <input name="temperature" type="number" step="any" required /></label>
+            <label>Humidity (%) <input name="humidity" type="number" step="any" min="0" max="100" required /></label>
+            <label>Sunlight (lux) <input name="sunlight" type="number" step="any" min="0" value="600" required /></label>
+            <label>Rainfall (mm) <input name="rainfall" type="number" step="any" min="0" value="0" required /></label>
+            <label>Crop Name (optional) <input name="crop" type="text" placeholder="Rice" /></label>
+            <label>Soil Type
+              <select name="soil_type" required>
+                <option value="sandy">Sandy</option>
+                <option value="loamy" selected>Loamy</option>
+                <option value="clay">Clay</option>
+              </select>
+            </label>
+            <label>Crop Stage
+              <select name="crop_stage" required>
+                <option value="seedling">Seedling</option>
+                <option value="vegetative" selected>Vegetative</option>
+                <option value="flowering">Flowering</option>
+                <option value="harvest">Harvest</option>
+              </select>
+            </label>
+            <label class="checkbox"><input id="irrigationUseIot" name="use_iot" type="checkbox" checked /> Use latest IoT context on submit</label>
+          </div>
+          <div class="split">
+            <button id="syncIrrigationFromLatest" type="button">Sync From Latest IoT</button>
+            <button type="submit">Get Irrigation Recommendation</button>
+          </div>
+        </form>
+        <div id="irrigationOut" class="result"></div>
+      </section>
+
+      <section class="panel reveal wide">
+        <h2>Analytics Dashboard</h2>
+        <p class="muted">Auto-updated from live sensor reads and prediction responses.</p>
+        <div class="analytics-controls">
+          <label>From
+            <input id="analyticsStart" type="datetime-local" />
+          </label>
+          <label>To
+            <input id="analyticsEnd" type="datetime-local" />
+          </label>
+          <button id="applyAnalyticsFilter" type="button">Apply Filter</button>
+          <button id="resetAnalyticsFilter" type="button">Reset Filter</button>
+          <button id="exportSensorPng" type="button">Export Sensor PNG</button>
+          <button id="exportYieldPng" type="button">Export Yield PNG</button>
+          <button id="exportAnalyticsCsv" type="button">Export CSV</button>
+          <button id="clearAnalyticsHistory" type="button">Clear History</button>
+        </div>
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>Sensor Trend</h3>
+            <div id="sensorStats" class="stats-strip"></div>
+            <canvas id="sensorTrendChart" height="180"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Yield Prediction Trend</h3>
+            <div id="yieldStats" class="stats-strip"></div>
+            <canvas id="yieldTrendChart" height="180"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

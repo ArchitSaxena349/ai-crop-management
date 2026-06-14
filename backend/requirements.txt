@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+Pillow
+numpy
+pandas
+xgboost
+pydantic
+python-multipart
+python-dotenv
+SQLAlchemy
+alembic
+psycopg[binary]
+tensorflow-cpu
+scikit-learn==1.7.1
