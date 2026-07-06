@@ -87,7 +87,9 @@ def _infer_target_size(model: tf.keras.Model) -> Tuple[int, int]:
 def _preprocess_image(file_bytes: bytes, target_size: Tuple[int, int]) -> np.ndarray:
     image = Image.open(io.BytesIO(file_bytes)).convert("RGB")
     image = image.resize(target_size, Image.Resampling.LANCZOS)
-    array = np.asarray(image, dtype="float32") / 255.0
+    # Feed raw [0, 255] pixels: the trained model includes a Rescaling(1/255)
+    # layer, so normalizing here would double-scale inputs toward zero.
+    array = np.asarray(image, dtype="float32")
     array = np.expand_dims(array, axis=0)
     return array
 
